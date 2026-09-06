@@ -1,0 +1,92 @@
+body{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+    height: 200dvh;
+    counter-reset: button;
+}
+main{
+    perspective-origin: 50% 50%;
+    place-content: center;
+    display: grid;
+    height: 100%;
+    width:700px;
+    margin-inline: auto;
+    transform-style: preserve-3d;
+    animation: spin 10s linear;
+    animation-timeline: scroll(root);
+    counter-reset: div;
+    position: fixed;
+    left: 50%;
+    translate: -50%;
+
+    &:after{
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        height: 100%;
+        width: 50%;
+        background: #fff5;
+        translate: -50% -50%;
+        animation: spin 10s linear reverse;
+        animation-timeline: scroll(root);
+        backdrop-filter: blur(5px);
+        mask-image: linear-gradient(to left,#0000 0%,#000 50%,#000 50%,#0000 100%);
+    }
+    button{
+        background:#777;
+        position: absolute;
+        left: 50%;
+        top: 40%;
+        translate: -50% -50%;
+        transform:
+            translate3d(-50%, calc((sibling-index() - 3) * 60px), 150px);
+        width: 120px;
+        height: 200px;
+        transition: .3s ease all;
+        rotate:Y calc((sibling-index() - 1) * 72deg);
+        border-radius: 1rem;
+        counter-increment: div;
+        display: grid;
+        overflow: hidden;
+
+        &:after{
+            content: counter(div);
+            font-size: 8rem;
+            color: #fff7;
+            place-self: center;
+            font-weight: 1000;
+        }
+    }
+    div[popover]{
+        border: 0;
+        width: 120px;
+        height: 200px;
+        border-radius: 1rem;
+        counter-increment: button;
+
+        &:popover-open{
+            display: grid;
+        }
+        &::after{
+            content: attr(id);
+            font-size: 8rem;
+            color: #1117;
+            place-self: center;
+            font-weight: 1000;
+        }
+        &::backdrop{
+            background: #0004;
+        }
+    }
+}
+
+
+@keyframes spin {
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
